@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Profile #<%= tag %> - <%= username %></title>
+<link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/872514306346999878/879747931543060480/usernamegenerator.png">
+<meta property="og:title" content="Profile #<%= tag %> - <%= username %>"/>
+<meta property="og:description" content="<%= aboutme %>"/>
+<meta property="og:url" content="https://www.dcbestbot.tk/profile?tag=<%= tag %>"/>
+<meta property="og:image" content="<%= useravatar %>"/>
+<meta data-react-helmet="true" name="theme-color"  content="<%= profilecolor %>"/>
+<style>
+  .profiletext {
+    color: #ffffff;
+    font-family: Impact;
+    display: inline-block;
+    font-size: 30px;
+    padding: 5px 5px;
+  }
+  .moneytext {
+    color: #ffffff;
+    font-family: Impact;
+    display: inline-block;
+    float: right;
+  }
+  .avatar {
+    float: right;
+    display: inline-block;
+    border-radius: 75px;
+  }
+  .aboutme {
+    font-size: 18px;
+    color: #5c5c5c;
+    font-family: Impact;
+    text-align: left;
+    padding: 5px;
+  }
+  .views {
+    font-family: trebuchet ms;
+    font-size: 16px;
+    color: #ffffff;
+    float: left;
+  }
+  .money {
+    font-family: Impact;
+    font-size: 18px;
+    color: #ffffff;
+  }
+</style>
+</head>
+<body style="background-color: #141414">
+<br>
+</br>
+<br>
+</br>
+<br>
+</br>
+<div id="moneybox" style="margin: auto; width: 50%;padding: 15px 15px;background-color: #2b2b2b;font-family: Impact;display: table;border-left: 5px solid <%= profilecolor %>; border-top-left-radius: 6px; border-bottom-left-radius: 6px; border-top-right-radius: 3px; border-bottom-right-radius: 3px;">
+  <img class="avatar" src=<%= useravatar %>>
+  <div class="profiletext"><%= username %><span style="color: #525252;font-family: Impact;display: inline-block;font-size: 28px;">#<%= ud %>&NonBreakingSpace;</span><img id="famousprofile" src="<%= famousprofile %>" title="<%= truefamousprofile %>" class="famousprofile"/></div>
+  <br>
+  </br>
+  <div class="aboutme"><%= aboutme %></div>
+  <br>
+  </br>
+  <div class="money">Money:</div>
+  <div class="money"><%= money %> <img src="https://cdn.discordapp.com/attachments/880487906748293140/884446425444921364/Best_BOT_coin_but_smaller.png" style="vertical-align: middle;" title="Best Bot Coins"></div>
+  <br>
+  </br>
+  <div class="views"><img src="https://cdn.discordapp.com/attachments/880487906748293140/883763183947505684/emoji_views_2.png"> Views - <%= views %></div>
+</div>
+<script type="text/javascript">
+</script>
+</body>
