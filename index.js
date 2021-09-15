@@ -10,8 +10,18 @@ disbut(client);
 const { MessageButton, MessageMenu, MessageMenuOption } = require("discord-buttons")
 const { DiscordMenus, ButtonBuilder, MenuBuilder } = require('discord-menus');
 const MenusManager = new DiscordMenus(client);
+const QuickChart = require('quickchart-js');
+const ms = require("ms")
+// const Topgg = require("@top-gg/sdk")
+// const webhook = new Topgg.Webhook("your webhook auth")
+const interactions = require("discord-slash-commands-client");
+const newslash = new interactions.Client(process.env["token"], "880868490905550909");
 
 app.get("/", function(req, res) {
+  res.sendFile(__dirname + "/web/home.html")
+})
+
+app.get("/home", function(req, res) {
   res.sendFile(__dirname + "/web/home.html")
 })
 
@@ -19,7 +29,100 @@ app.get("/mb", function(req, res) {
   res.sendFile(__dirname + "/web/mbhome.html")
 })
 
+app.get(`/search-profile`, function(req, res) {
+  res.sendFile(__dirname + `/web/searchprofile.html`)
+})
+
 app.engine('html', require('ejs').renderFile);
+
+app.get(`/search`, function(req, res) {
+  let pt = req.query.profiletag;
+  let userid = req.query.userid;
+  if(!userid) {
+  let userid = db.get(`thesearch_${pt}`)
+  if(!userid) {
+    res.send(`Profile not found!`)
+  }
+  else {
+  let themoney = db.get(`money_${userid}`)
+  if(!themoney) {
+    themoney = 0
+  }
+  let user = client.users.cache.get(userid)
+  let username = user.username
+  let useravatar = user.avatarURL({ dynamic: true })
+  let userdiscriminator = user.discriminator
+  let color = db.get(`color_${userid}`)
+  if(!color) {
+    color = "#34ebab"
+  }
+  let aboutme = db.get(`aboutme_${userid}`)
+  if(!aboutme) {
+    aboutme = "There is no about me yet"
+  }
+  db.add(`views_${pt}`, 1)
+  let views = db.get(`views_${pt}`)
+  let famousprofile = db.get(`famousprofile_${userid}`)
+  let truefamousprofile = "Famous Profile (1000+ views)"
+  if(views >= 1000) {
+    if(!famousprofile) {
+    db.set(`famousprofile_${userid}`, true)
+    db.add(`achievements_${userid}`, 1)
+    }
+  }
+  if(famousprofile === true) {
+    famousprofile = "https://cdn.discordapp.com/attachments/880487906748293140/886675212844793887/Famous_profile_2.jpg"
+  }
+  else if(!famousprofile) {
+    famousprofile = "https://cdn.discordapp.com/attachments/880487906748293140/886676079488688248/not_famous_profile_1.jpg"
+    truefamousprofile = "Not a famous profile (>1000 views)"
+  }
+  res.render(__dirname + `/web/profile.html`, {money: themoney, tag: pt, username: username, useravatar: useravatar, profilecolor: color, ud: userdiscriminator, aboutme: aboutme, views: views, famousprofile: famousprofile, truefamousprofile: truefamousprofile })
+  }
+  }
+  else if(!pt) {
+  let user = client.users.cache.get(userid)
+  if(!user) {
+    res.send("Profile Not Found!")
+  }
+  else {
+  let tag = db.get(`theprofiletag_${userid}`)
+  let themoney = db.get(`money_${userid}`)
+  if(!themoney) {
+    themoney = 0
+  }
+  let username = user.username
+  let useravatar = user.avatarURL({ dynamic: true })
+  let userdiscriminator = user.discriminator
+  let color = db.get(`color_${userid}`)
+  if(!color) {
+    color = "#34ebab"
+  }
+  let aboutme = db.get(`aboutme_${userid}`)
+  if(!aboutme) {
+    aboutme = "There is no about me yet"
+  }
+  db.add(`views_${tag}`, 1)
+  let views = db.get(`views_${tag}`)
+  let famousprofile = db.get(`famousprofile_${userid}`)
+  let truefamousprofile = "Famous Profile (1000+ views)"
+  if(views >= 1000) {
+    if(!famousprofile) {
+    db.set(`famousprofile_${userid}`, true)
+    db.add(`achievements_${userid}`, 1)
+    }
+  }
+  if(famousprofile === true) {
+    famousprofile = "https://cdn.discordapp.com/attachments/880487906748293140/886675212844793887/Famous_profile_2.jpg"
+  }
+  else if(!famousprofile) {
+    famousprofile = "https://cdn.discordapp.com/attachments/880487906748293140/886676079488688248/not_famous_profile_1.jpg"
+    truefamousprofile = "Not a famous profile (>1000 views)"
+  }
+  res.render(__dirname + `/web/profile.html`, {money: themoney, tag: tag, username: username, useravatar: useravatar, profilecolor: color, ud: userdiscriminator, aboutme: aboutme, views: views, famousprofile: famousprofile, truefamousprofile: truefamousprofile })
+  }
+  }
+})
 
 app.get(`/profile`, function(req, res) {
   let pt = req.query.tag;
@@ -55,10 +158,10 @@ app.get(`/profile`, function(req, res) {
     }
   }
   if(famousprofile === true) {
-    famousprofile = "https://cdn.discordapp.com/attachments/880487906748293140/884209668497494066/famous_profile.png"
+    famousprofile = "https://cdn.discordapp.com/attachments/880487906748293140/886675212844793887/Famous_profile_2.jpg"
   }
   else if(!famousprofile) {
-    famousprofile = "https://cdn.discordapp.com/attachments/880487906748293140/884215016054743100/not_famous.png"
+    famousprofile = "https://cdn.discordapp.com/attachments/880487906748293140/886676079488688248/not_famous_profile_1.jpg"
     truefamousprofile = "Not a famous profile (>1000 views)"
   }
   res.render(__dirname + `/web/profile.html`, {money: themoney, tag: pt, username: username, useravatar: useravatar, profilecolor: color, ud: userdiscriminator, aboutme: aboutme, views: views, famousprofile: famousprofile, truefamousprofile: truefamousprofile })
@@ -68,6 +171,24 @@ app.get(`/profile`, function(req, res) {
 app.get(`/terms-of-service`, function(req, res) {
   res.sendFile(__dirname + `/web/terms-of-service.html`)
 })
+
+//app.post("/dblwebhook", webhook.listener(vote => {
+  // user id "vote.user"
+  //db.add(`money_${vote.user}`, 15000)
+  //db.add(`10dayvip_${vote.user}`, 1)
+  //let vipdate = moment(new Date()).format("x")
+  //db.set(`10dayvipdate_${vote.user}`, vipdate)
+  //let theuser = client.users.cache.get(vote.user)
+  //let embed = new Discord.MessageEmbed()
+  //.setTitle(`Thanks for voting on our bot!`)
+  //.setDescription(`As a recompensation, we gave you 10 day vip and 15000$! \nThanks for liking our bot and have fun!`)
+  //.setColor("GREEN")
+  //.setThumbnail(user.displayAvatarURL({ dynamic: true }))
+  //.setFooter("vip date in MS: " + vipdate)
+  //theuser.send(embed)
+//}))
+
+//app.listen(80)
 
 app.listen(3000, function() {
   console.log("working")
@@ -114,10 +235,19 @@ client.on("message", async message => {
     db.set(`thesearch_${profiletag}`, user.id)
   }
   if(command.toLowerCase() === "ping") {
+    let embedpinging = new Discord.MessageEmbed()
+    .setTitle(`Pinging...`)
+    .setColor("GREEN")
     let embed = new Discord.MessageEmbed()
-    .setTitle(`ping`)
-    .setDescription(`API Ping - ${client.ws.ping}`)
-    message.channel.send(embed)
+    .setTitle(`Ping`)
+    .setDescription(`:robot: API Ping - ${client.ws.ping}`)
+    .setColor("ORANGE")
+    .setThumbnail(client.user.displayAvatarURL())
+    message.channel.send(embedpinging).then(message => {
+      setTimeout(function() {
+        message.edit(embed)
+      }, client.ws.ping)
+    })
   }
   if(command.toLowerCase() === "beg") {
     let begtrue = db.get(`begtrue_${message.author.id}`)
@@ -145,8 +275,9 @@ client.on("message", async message => {
     ]
     db.add(`money_${message.author.id}`, money)
     db.set(`begtrue_${message.author.id}`, true)
+    db.add(`allmoney_${client.user.id}`, money)
     let embed = new Discord.MessageEmbed()
-    .setTitle(`You just got ${money} <:BestBotCoin:884447303954481153> from ${person[Math.floor(Math.random() * person.length)]}`)
+    .setTitle(`You just got ${money}$ from ${person[Math.floor(Math.random() * person.length)]}`)
     .setColor("GREEN")
     .setThumbnail(`https://cdn.discordapp.com/attachments/880485897026560114/884890964169199656/squidward_chad.jpg`)
     message.channel.send(embed).then(() => {
@@ -172,6 +303,10 @@ client.on("message", async message => {
     if(!bank) {
       bank = 0
     }
+    let bbc = db.get(`bbc.${user.id}`);
+    if(!bbc) {
+      bbc = 0.0000;
+    }
     let colors = [
       "ORANGE",
       "RED",
@@ -183,8 +318,11 @@ client.on("message", async message => {
     let embed = new Discord.MessageEmbed()
     .setTitle(`${user.username}'s balance`)
     .setColor(color)
-    .setDescription(`Money - ${money} <:BestBotCoin:884447303954481153>\nBank - ${bank} <:BestBotCoin:884447303954481153>`)
+    .addField(`:briefcase: Money`, `${money}$`, {inline: true})
+    .addField(`:bank: Bank`, `${bank}$`, {inline: true})
+    .addField(`<:BestBotCoin:884447303954481153> BBC`, `${bbc.toFixed(4)}`)
     .setThumbnail(user.displayAvatarURL({dynamic: true}))
+    .setFooter(`${prefix}profile to check your profile!`)
     message.channel.send(embed)
   } 
   if(command.toLowerCase() === "profile" || command.toLowerCase() === "p") {
@@ -223,13 +361,18 @@ client.on("message", async message => {
       if(!bank) {
         bank = 0
       }
+      let bbc = db.get(`bbc.${user.id}`);
+      if(!bbc) {
+        bbc = 0.0000;
+      }
       let profiletagofc = db.get(`theprofiletag_${user.id}`)
         let profile = new Discord.MessageEmbed()
         .setTitle(`${user.username}'s Profile`)
         .setColor(color)
         .setDescription(`${aboutme}`)
-        .addField(`:briefcase: Money`, `${money} <:BestBotCoin:884447303954481153>`, {inline: true})
-        .addField(`:bank: Bank`, `${bank} <:BestBotCoin:884447303954481153>`, {inline: true})
+        .addField(`:briefcase: Money`, `${money}$`, {inline: true})
+        .addField(`:bank: Bank`, `${bank}$`, {inline: true})
+        .addField(`<:BestBotCoin:884447303954481153> BBC`, `${bbc.toFixed(4)}`)
         .addField(`<:usernamegenerator:883077034123886633> Profile info`, `**[Profile URL](https://www.dcbestbot.tk/profile?tag=${profiletagofc})** \n**Profile tag: #${profiletagofc}**`)
         .setFooter(`check out our website: https://www.dcbestbot.tk`)
         .setThumbnail(user.displayAvatarURL({dynamic: true}))
@@ -263,11 +406,16 @@ client.on("message", async message => {
         if(!aboutme) {
           aboutme = "There is no about me yet"
         }
+        let bbc = db.get(`bbc.${search}`);
+        if(!bbc) {
+          bbc = 0.0000;
+        }
         let embed = new Discord.MessageEmbed()
         .setTitle(`${member.username}'s Profile`)
         .setColor(color)
-        .addField(`:briefcase: Money <:BestBotCoin:884447303954481153>`, `${money}`, {inline: true})
-        .addField(`:bank: Bank <:BestBotCoin:884447303954481153>`, `${bank}`, {inline: true})
+        .addField(`:briefcase: Money`, `${money}$`, {inline: true})
+        .addField(`:bank: Bank`, `${bank}$`, {inline: true})
+        .addField(`<:BestBotCoin:884447303954481153> BBC`, `${bbc.toFixed(4)}`)
         .setDescription(`${aboutme}`)
         .addField(`<:usernamegenerator:883077034123886633> Profile info`, `**[Profile URL](https://www.dcbestbot.tk/profile?tag=${profiletag})** \n**Profile tag: #${profiletag}**`)
         .setFooter(`check out our website: https://www.dcbestbot.tk`)
@@ -296,12 +444,13 @@ client.on("message", async message => {
       message.channel.send(embed)
       }
       else {
+        db.subtract(`allmoney_${client.user.id}`, quantity)
         db.subtract(`money_${user.id}`, quantity)
         db.add(`bank_${user.id}`, quantity)
         let bankk = db.get(`bank_${user.id}`)
         let embed = new Discord.MessageEmbed()
         .setTitle(`Bank`)
-        .setDescription(`You have successfully deposit **${quantity}** <:BestBotCoin:884447303954481153> \nYou now have ${bankk} <:BestBotCoin:884447303954481153> on your bank`)
+        .setDescription(`You have successfully deposit **${quantity}**$\nYou now have ${bankk}$ on your bank`)
         .setColor("GREEN")
         .setThumbnail(`${user.displayAvatarURL({dynamic: true})}`)
         message.channel.send(embed)
@@ -328,12 +477,13 @@ client.on("message", async message => {
       message.channel.send(embed)
       }
       else {
+        db.add(`allmoney_${client.user.id}`, quantity)
         db.add(`money_${user.id}`, quantity)
         db.subtract(`bank_${user.id}`, quantity)
         let bankk = db.get(`bank_${user.id}`)
         let embed = new Discord.MessageEmbed()
         .setTitle(`Bank`)
-        .setDescription(`You have successfully deposit **${quantity}** <:BestBotCoin:884447303954481153> \nYou now have ${bankk} <:BestBotCoin:884447303954481153> on your bank`)
+        .setDescription(`You have successfully deposit **${quantity}**$\nYou now have ${bankk}$ on your bank`)
         .setColor("GREEN")
         .setThumbnail(`${user.displayAvatarURL({dynamic: true})}`)
         message.channel.send(embed)
@@ -357,7 +507,7 @@ client.on("message", async message => {
             setTimeout(function() {
             let embed = new Discord.MessageEmbed()
             .setTitle(`Rewards`)
-            .setDescription(`You just won 1000 <:BestBotCoin:884447303954481153> from that code!`)
+            .setDescription(`You just won 1000$ from that code!`)
             .setColor("GREEN")
             message.edit(embed)
             db.add(`money_${message.author.id}`, 1000)
@@ -379,7 +529,7 @@ client.on("message", async message => {
       let embed = new Discord.MessageEmbed()
       .setTitle(`Rewards`)
       .setColor("GREEN")
-      .setDescription(`Cool you just received 1000 <:BestBotCoin:884447303954481153>`)
+      .setDescription(`Cool you just received 1000$`)
       message.channel.send(embed)
       db.add(`money_${message.author.id}`, 1000)
       db.set(`redeemed_${message.author.id}_${redeemcode}`, true)
@@ -421,10 +571,6 @@ client.on("message", async message => {
     else {
       return
     }
-  }
-  if(command.toLowerCase() === "allredeemcodes") {
-    let all = db.get(`redeemcodes1_${client.user.id}_`)
-    console.log(all)
   }
   if(command.toLowerCase() === "mail") {
     let developer = db.get(`bestbotdeveloper_${message.author.id}`)
@@ -788,6 +934,248 @@ client.on("message", async message => {
     .setPlaceHolder('Select a category');
     await MenusManager.sendMenu(message, embed, { menu: myOnlyCoolMenu })
   }
+  if(command.toLowerCase() === "goals") {
+    if(!args[0]) {
+      let goals = db.get(`goals_${client.user.id}`)
+      if(!goals) {
+        goals = "no goals set yet"
+      }
+      else {
+        goals = goals.join("\n")
+      }
+      let embed = new Discord.MessageEmbed()
+      .setTitle(`Goals`)
+      .setDescription(goals)
+      .setColor("GREEN")
+      message.channel.send(embed)
+    }
+    else if(args[0].toLowerCase() === "set") {
+      let developer = db.get(`bestbotdeveloper_${message.author.id}`)
+      if(developer === true) {
+        let newgoal = args.slice(1).join(" ")
+        if(!newgoal) {
+          let embed = new Discord.MessageEmbed()
+          .setTitle(`Error ID: 02`)
+          .setDescription(`no args defined`)
+          .setFooter(`don't forget to set a new goal!`)
+          .setColor("GREEN")
+          message.channel.send(embed)
+        }
+        else {
+          db.push(`goals_${client.user.id}`, newgoal)
+          let embed = new Discord.MessageEmbed()
+          .setTitle(`New goal`)
+          .setDescription(newgoal)
+          .setColor("GREEN")
+          .setThumbnail(client.user.displayAvatarURL())
+          message.channel.send(embed)
+        }
+      }
+      else {
+        message.channel.send("You don't have permission to use this command")
+      }
+    }
+    else if(args[0].toLowerCase() === "reset") {
+      let developer = db.get(`bestbotdeveloper_${message.author.id}`)
+      if(developer === true) {
+        db.delete(`goals_${client.user.id}`)
+        message.channel.send("Deleted all the goals!")
+      }
+      else {
+        message.channel.send("You don't have permission to use this command")
+      }
+    }
+  }
+  if(command.toLowerCase() === "level") {
+    let user = message.mentions.users.first()
+    if(!user) {
+      user = message.author
+    }
+    let level = db.get(`level_${message.guild.id}_${user.id}`)
+    if(!level) {
+      level = 1
+    }
+    let xp = db.get(`xp_${message.guild.id}_${user.id}`)
+    if(!xp) {
+      xp = 0
+    }
+    let embed = new Discord.MessageEmbed()
+    .setTitle(`${user.username}'s rank`)
+    .setDescription(`level - ${level} \nxp - ${xp}`)
+    .setColor("GREEN")
+    .setThumbnail(user.displayAvatarURL({ dynamic: true }))
+    message.channel.send(embed)
+  }
+  if(command.toLowerCase() === "bbc") {
+  if(!args[0]) {
+  let bbcvalue = db.get(`bbcvalue_${client.user.id}`)
+  let oldbbcvalue = db.get(`oldbbcvalue_${client.user.id}`)
+	let myChart = new QuickChart();
+  myChart
+  .setConfig({
+    type: 'line',
+    data: { labels: ['Original Value', 'Previous Value','Current Value' ], datasets: [{ label: 'BBC Value', data: [100, oldbbcvalue, bbcvalue ] }] },
+  })
+  .setWidth(800)
+  .setHeight(400);
+
+  let image = myChart.getUrl();
+  let embed = new Discord.MessageEmbed()
+  .setImage(image)
+  .setTitle(`BBC Coin (In Bot Currency)`)
+  .setDescription(`${bbcvalue}$ Of Value`)
+  .setFooter(`this is NOT a real currency / cryptocurrency! this is to simulate a real currency, therefore it is not a real one.`)
+  .setColor("GREEN")
+  .setThumbnail(client.user.displayAvatarURL())
+  message.channel.send(embed)
+  }
+  }
+  if(command.toLowerCase() === "mine") {
+    let user = message.author
+    if(!args[0]) {
+    let mining = db.get(`mining_${user.id}`)
+    if(!mining) {
+      message.channel.send(`You started mining! do \`${prefix}mine stats\` to check closer info!`)
+      let dateofstartx = moment(new Date()).format("x")
+      db.set(`dateofstart_${user.id}`, dateofstartx)
+      let bbc = db.get(`bbc.${user.id}`)
+      if(!bbc) {
+        bbc = 0
+        db.set(`bbc.${user.id}`, 0)
+      }
+      db.set(`bbcofstart.${user.id}`, bbc)
+      db.set(`mining_${user.id}`, true)
+      setInterval(function() {
+        let bbcointoadd = Math.floor(Math.floor(Math.random() * 450) + 1) / 10000;
+        db.add(`bbc.${user.id}`, bbcointoadd)
+      }, 120000)
+    } else {
+      let embed = new Discord.MessageEmbed()
+      .setTitle(`Error`)
+      .setDescription(`You are already mining! use \`${prefix}mine stats\` to see your stats`)
+      .setColor("RED")
+      .setThumbnail(client.user.displayAvatarURL())
+      .setFooter(`this is NOT a real currency / cryptocurrency! this is to simulate a real currency, therefore it is not a real one.`)
+      message.channel.send(embed)
+    }
+  }
+  else if(args[0].toLowerCase() === "stats") {
+    let mining = db.get(`mining_${user.id}`)
+    if(mining === true) {
+    let dateofstartx = moment(new Date()).format("x")
+    let anotherdateofstart = db.get(`dateofstart_${user.id}`)
+    let dateofstart = ms(Math.floor(ms(dateofstartx) - ms(anotherdateofstart)))
+    let bbc = db.get(`bbc.${user.id}`).toFixed(4)
+    if(!bbc) {
+      bbc = 0
+    }
+    let bbcofstart = db.get(`bbcofstart.${user.id}`).toFixed(4)
+    if(!bbcofstart) {
+      bbcofstart = 0
+    }
+    let howmanybbc = bbc - bbcofstart
+    if(howmanybbc === -0.0000) {
+      howmanybbc = 0.0000
+    }
+    let bbcvalue = db.get(`bbcvalue_${client.user.id}`)
+    let oldbbcvalue = db.get(`oldbbcvalue_${client.user.id}`)
+	  let myChart = new QuickChart();
+    myChart
+    .setConfig({
+      type: 'line',
+      data: { labels: ['Original Value', 'Previous Value','Current Value' ], datasets: [{ label: 'BBC Value', data: [100, oldbbcvalue, bbcvalue ] }] },
+    })
+    .setWidth(800)
+    .setHeight(400);
+    let image = myChart.getUrl();
+    let embed = new Discord.MessageEmbed()
+    .setTitle(`Your mining status`)
+    .setDescription(`You started ${dateofstart} ago \nBBC mined: ${howmanybbc.toFixed(4)} <:BestBotCoin:884447303954481153> \nValue for BBC: ${bbcvalue}$`)
+    .setImage(image)
+    .setColor("GREEN")
+    .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
+    .setFooter(`this is NOT a real currency / cryptocurrency! this is to simulate a real currency, therefore it is not a real one.`)
+    message.channel.send(embed)
+  }
+  else {
+    let embed = new Discord.MessageEmbed()
+    .setTitle(`Error`)
+    .setDescription(`You are not currently mining! use \`${prefix}mine\` to start mining`)
+    .setColor("RED")
+    .setThumbnail(client.user.displayAvatarURL())
+    .setFooter(`this is NOT a real currency / cryptocurrency! this is to simulate a real currency, therefore it is not a real one.`)
+    message.channel.send(embed)
+  }
+  }
+  else if(args[0].toLowerCase() === "stop") {
+      let user = message.author
+      let checkifmining = db.get(`mining_${user.id}`)
+      if(checkifmining === true) {
+      let dateofstartx = moment(new Date()).format("x")
+      let anotherdateofstart = db.get(`dateofstart_${user.id}`)
+      let dateofstart = ms(Math.floor(ms(dateofstartx) - ms(anotherdateofstart)))
+      let bbc = db.get(`bbc.${user.id}`)
+      if(!bbc) {
+        bbc = 0.0000;
+      }
+      let bbcofstart = db.get(`bbcofstart.${user.id}`)
+      if(!bbcofstart) {
+        bbcofstart = 0.0000;
+      }
+      let howmanybbc = Math.floor(bbc - bbcofstart)
+      if(!howmanybbc) {
+        howmanybbc = 0.0000;
+      }
+      db.delete(`mining_${user.id}`)
+      let embed = new Discord.MessageEmbed()
+      .setTitle(`Stopped`)
+      .setDescription(`You stopped mining!\n\n**__Final Status__**\nTime Spent: ${dateofstart} \nBBC mined: ${howmanybbc}`)
+      .setColor("ORANGE")
+      .setThumbnail(user.displayAvatarURL())
+      .setFooter(`this is NOT a real currency / cryptocurrency! this is to simulate a real currency, therefore it is not a real one.`)
+      message.author.send(embed)
+    }
+    else {
+    let embed = new Discord.MessageEmbed()
+    .setTitle(`Error`)
+    .setDescription(`You are not currently mining! use \`${prefix}mine\` to start mining`)
+    .setColor("RED")
+    .setThumbnail(client.user.displayAvatarURL())
+    .setFooter(`this is NOT a real currency / cryptocurrency! this is to simulate a real currency, therefore it is not a real one.`)
+    message.channel.send(embed)
+    }
+  }
+  }
+  if(command.toLowerCase() === "sell") {
+    if(args[0].toLowerCase() === "bbc") {
+      let quantity = args[1]
+      if(!quantity) {
+      let embed = new Discord.MessageEmbed()
+      .setTitle(`Error ID: 02 || Error ID: 09`)
+      .setDescription(`no args defined || text type invalid`)
+      .setColor("RED")
+      .setFooter(`Make sure you type how much BBC you are selling!`)
+      message.channel.send(embed)
+      }
+      else {
+        message.channel.send("soon")
+      }
+    } else {
+      let embed = new Discord.MessageEmbed()
+      .setTitle(`Error ID: 02 || Error ID: 09`)
+      .setDescription(`no args defined || text type invalid`)
+      .setColor("RED")
+      .setFooter(`Make sure you type what you are selling and it HAS to exist`)
+      message.channel.send(embed)
+    }
+  }
+  if(command.toLowerCase() === "vote") {
+    let button = new MessageButton()
+    .setLabel("Vote here!")
+    .setStyle("url")
+    .setURL("https://www.dcbestbot.tk")
+    message.channel.send("Vote on us here!", button)
+  }
 })
 
 MenusManager.on('MENU_CLICKED', async (menu) => {
@@ -854,9 +1242,45 @@ client.on("ready", () => {
     client.guilds.cache.get(guilds[i].id).members.fetch().then(r => {
       r.array().forEach(r => {
         db.delete(`begtrue_${r.user.id}`)
+        db.delete(`mining_${r.user.id}`)
       });
     });
   }
+})
+
+client.on("ready", () => {
+  setInterval(function() {
+    let bbcvalue = db.get(`bbcvalue_${client.user.id}`)
+    if(bbcvalue <= 15000000) {
+    if(bbcvalue <= 0) {
+      bbcvalue = Math.floor(Math.random() * 100) + 1;
+    }
+    db.set(`oldbbcvalue_${client.user.id}`, bbcvalue)
+    let chances = Math.floor(Math.random() * 7000) + 1;
+    let changed = "no"
+    if(chances >= 3500) {
+      let newbbcvaluerandom = Math.floor(Math.random() * 30) + 1;
+      let valuetoadd = Math.floor(bbcvalue / 100) * newbbcvaluerandom;
+      let newbbcvalue = bbcvalue + valuetoadd;
+      changed = "yes"
+      db.set(`bbcvalue_${client.user.id}`, newbbcvalue)
+    }
+    else if(chances <= 3499 && chances >= 1500) {
+      db.set(`bbcvalue_${client.user.id}`, bbcvalue)
+      changed = changed
+    }
+    else if(chances > 1500) {
+      let newbbcvaluerandom = Math.floor(Math.random() * 30) + 1;
+      let bbcvaluetoreduce = Math.floor(bbcvalue / 100) * newbbcvaluerandom
+      changed = "forlow"
+      let newbbcvalue = bbcvalue - bbcvaluetoreduce;
+      db.set(`bbcvalue_${client.user.id}`, newbbcvalue)
+    }
+    }
+    else {
+      client.users.cache.get("861376659597164545").send("Limit has been achieved on BBC")
+    }
+  }, 2400000)
 })
 
 client.login(process.env["token"])

@@ -3,7 +3,63 @@
 <head>
 <title>Home - Best Bot</title>
 <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/880487906748293140/880827517521518662/logo_from_creative.png">
+<style>
+   @import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900");
+  .body {
+    margin: 0 40px;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+    background-color: #171717;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    padding: 20px 8px;
+  }
+  nav .menu {
+    margin-right: 20px;
+    cursor: pointer;
+  }
+  nav .logo {
+    cursor: pointer;
+  }
+  .sidemenu {
+    float: left;
+    background-color: #121212;
+    display: none;
+  }
+  .tos:hover {
+    border-bottom: 3px solid #34ebab;
+    box-bottom-shadow: 0 0 5px #28b584;
+  }
+  .tos:active {
+    position:relative;
+	  top:1px;
+  }
+  .ps:hover {
+    border-bottom: 3px solid #283fb5;
+    box-bottom-shadow: 0 4px 2px -2px #491f91;
+  }
+  .ps:active {
+    position:relative;
+	  top:1px;
+  }
+</style>
 </head>
-<body style="background-color: #202020">
+<body class="body">
+    <div class="sidemenu">
+      <a class="tos" href="/terms-of-service">Bot TOS</a>
+      <a class="sp" href="/search-profile">Profile Search</a>
+    </div>
+    <nav>
+      <img src="https://cdn.discordapp.com/attachments/880487906748293140/884803439308193832/menu.png" class="menu">
+      <img src="https://cdn.discordapp.com/attachments/880487906748293140/884810892397670441/Best_Bot_Logo_for_website_home.png" class="logo">
+    </nav>
+  <script type="text/javascript">
+  function opensidemenu() {
+    document.getElementByID("sidemenu").style.display = "block"
+  }
+  </script>
 </body>
 </html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>Search Profile - Best Bot</title> 
+  <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/880487906748293140/880827517521518662/logo_from_creative.png">
+<meta property="og:title" content="Search Profile - Best Bot"/>
+<meta property="og:description" content="Search profiles with profile tag or user id"/>
+<meta property="og:url" content="https://www.dcbestbot.tk/search-profile"/>
+<meta property="og:image" content="https://cdn.discordapp.com/attachments/880487906748293140/880827517521518662/logo_from_creative.png"/>
+<meta data-react-helmet="true" name="theme-color"  content="#ffffff"/>
+  <script src="https://kit.fontawesome.com/6a7bcef4b4.js" crossorigin="anonymous"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900");
+      .body {
+        margin: 0 40px;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+        background-color: #141414;
+        color: #ffffff;
+      }
+      .searchprofile {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #1f1f1f;
+        height: 40px;
+        border-radius: 40px;
+        padding: 10px
+      }
+      .button {
+        background-color: #242424;
+        float: right; 
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .search {
+        border: none;
+        background-color: transparent;
+        outline: none;
+        float: left;
+        padding: 0;
+        color: #ffffff;
+        font-family: "Poppins", sans-serif;
+        transition: 0.4s;
+        line-height: 40px;
+        width: 240px;
+      }
+      nav {
+    display: flex;
+    align-items: center;
+    padding: 20px 8px;
+  }
+  nav .logo {
+    cursor: pointer;
+  }
+    </style>
+  </head>
+  <body class="body">
+    <nav>
+    <a href="/home">
+    <img src="https://cdn.discordapp.com/attachments/880487906748293140/884810892397670441/Best_Bot_Logo_for_website_home.png" class="logo">
+    </a>
+    </nav>
+    <div class="searchprofile">
+      <form id="searchtheprofile" method="get" />
+      <input class="search" type="text" placeholder="Profile Tag... (example: 1) or user id" id="search">
+      <a class="button" onclick="search()"><i class="fas fa-search"></i></a>
+    </div>
+    <script type="text/javascript">
+      document.getElementById("searchtheprofile").onsubmit = function() {
+      var searchvalue = document.getElementById('search').value;
+      if(!searchvalue) {
+        searchvalue == 1
+      }
+      if(searchvalue.length == 18) {
+      window.location = "https://www.dcbestbot.tk" + `/search?userid=` + searchvalue
+      return false;
+      }
+      else {
+      window.location = "https://www.dcbestbot.tk" + `/search?profiletag=` + searchvalue
+      return false;
+      }
+    }
+    function search() {
+      var searchvalue = document.getElementByID("search").value;
+      if(!searchvalue) {
+        searchvalue == 1
+      }
+      if(searchvalue.length == 18) {
+      window.location = "https://www.dcbestbot.tk" + `/search?userid=` + searchvalue
+      return false;
+      }
+      else {
+      window.location = "https://www.dcbestbot.tk" + `/search?profiletag=` + searchvalue
+      return false;
+      }
+    }
+    </script>
+  </body>
+</html>
