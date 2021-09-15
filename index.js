@@ -14,8 +14,6 @@ const QuickChart = require('quickchart-js');
 const ms = require("ms")
 // const Topgg = require("@top-gg/sdk")
 // const webhook = new Topgg.Webhook("your webhook auth")
-const interactions = require("discord-slash-commands-client");
-const newslash = new interactions.Client(process.env["token"], "880868490905550909");
 
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/web/home.html")
