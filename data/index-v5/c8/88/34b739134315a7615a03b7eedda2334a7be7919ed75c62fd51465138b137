@@ -1,0 +1,2 @@
+
+9d53158246028e697c36ad52f3cac2c7ead0b41a	{"key":"make-fetch-happen:request-cache:https://nekobot.xyz/api/imagegen?type=changemymind&text=I%20like%20bread%20stick","integrity":"sha512-Bhd2VpbN977/maNXv4qTbzPthX9rYNr5SPp4Oicdi2CpNchksatP01kpIBkb2ZVVwVzDkyPmujgUc/Q+HuSaNw==","time":1632002612254,"size":134,"metadata":{"time":1632002612248,"url":"https://nekobot.xyz/api/imagegen?type=changemymind&text=I%20like%20bread%20stick","reqHeaders":{},"resHeaders":{"content-encoding":"gzip","content-type":"application/json","date":"Sat, 18 Sep 2021 22:03:32 GMT"}}}

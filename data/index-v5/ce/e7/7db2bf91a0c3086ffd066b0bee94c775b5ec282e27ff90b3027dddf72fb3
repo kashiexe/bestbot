@@ -1,0 +1,2 @@
+
+e168dcd2f1e0ab4015a7986d2101631eba60de60	{"key":"make-fetch-happen:request-cache:https://nekobot.xyz/api/imagegen?type=tweet&username=ABigDisappointment&text=Something","integrity":"sha512-H3U71iVrUOlD+EvYklIWoGSaUkt2ZiwnZBYXEbnAc8BgziFIbY+zts22s5+u9eSEw1CpIxvz1dUsIa9wD/c7eQ==","time":1632002248352,"size":134,"metadata":{"time":1632002248348,"url":"https://nekobot.xyz/api/imagegen?type=tweet&username=ABigDisappointment&text=Something","reqHeaders":{},"resHeaders":{"content-encoding":"gzip","content-type":"application/json","date":"Sat, 18 Sep 2021 21:57:28 GMT"}}}

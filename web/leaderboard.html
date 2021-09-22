@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= name %> Leaderboard - Best Bot</title>
+<link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/880487906748293140/880827517521518662/logo_from_creative.png">
+<style>
+@import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900");
+  .body {
+    margin: 0 40px;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+    background-color: #252525;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    padding: 20px 8px;
+  }
+  nav .logo {
+    cursor: pointer;
+  }
+  .leaderboard {
+    white-space: pre-line;
+    font-family: "Poppins", sans-serif;
+    color: #ffffff;
+    font-size: 17px;
+    padding: 5px 15px 15px;
+    border-left: 4px solid #37a654;
+    background-color: #121212;
+    margin: auto;
+    width: 50%;
+    display: table;
+  }
+  .title {
+    font-size: 26.5px;
+    display: inline-block;
+    float: left;
+    font-family: "Poppins", sans-serif;
+    color: #ffffff;
+  }
+</style>
+</head>
+<body style="background-color: #181818">
+  <nav>
+    <a href="/home">
+    <img src="https://cdn.discordapp.com/attachments/880487906748293140/884810892397670441/Best_Bot_Logo_for_website_home.png" class="logo">
+    </a>
+  </nav>
+  <br>
+  </br>
+  <div class="leaderboard">
+    <div class="title"><%= lbtype %></div>
+      <img src="<%= avatar %>" style="float: right;" />
+      <br></br>
+      <%= lb %>
+  </div>
+<script type="text/javascript">
+</script>
+</body>

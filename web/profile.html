@@ -54,7 +54,7 @@
     font-size: 18px;
     color: #ffffff;
   }
-      nav {
+  nav {
     display: flex;
     align-items: center;
     padding: 20px 8px;
@@ -62,6 +62,46 @@
   nav .logo {
     cursor: pointer;
   }
+  .searchprofile {
+    position: absolute;
+    left: 85%;
+    top: 8%;
+    transform: translate(-50%, -50%);
+    background-color: #1f1f1f;
+    height: 40px;
+    border-radius: 40px;
+    padding: 10px
+  }
+  .button {
+    background-color: #242424;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    position: absolute;
+    left: 83%;
+    top: 14%;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid #161616;
+  }
+  .search {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    float: left;
+    padding: 0;
+    color: #ffffff;
+    font-family: "Poppins", sans-serif;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 300px;
+  }
+  /*.searchprofile:hover > .search {
+    /*width: 240px;
+    /*padding: 0 6px;
+  /*}
 </style>
 </head>
 <body>
@@ -69,14 +109,19 @@
     <a href="/home">
     <img src="https://cdn.discordapp.com/attachments/880487906748293140/884810892397670441/Best_Bot_Logo_for_website_home.png" class="logo">
     </a>
+    <div class="searchprofile">
+      <form id="searchtheprofile" method="get" />
+      <input class="search" type="text" placeholder="Profile Tag... (example: 1) or user id" id="search">
+      <a class="button"><i class="fas fa-search"></i></a>
+    </div>
   </nav>
 <br>
 </br>
 <br>
 </br>
-<div id="moneybox" style="margin: auto; width: 50%;padding: 15px 15px;background-color: #2b2b2b;font-family: Impact;display: table;border-left: 5px solid <%= profilecolor %>; border-top-left-radius: 6px; border-bottom-left-radius: 6px; border-top-right-radius: 3px; border-bottom-right-radius: 3px;">
+<div id="moneybox" style="margin: auto; width: 55%;padding: 15px 15px;background-color: #2b2b2b;font-family: Impact;display: table;border-left: 5px solid <%= profilecolor %>; border-top-left-radius: 6px; border-bottom-left-radius: 6px; border-top-right-radius: 3px; border-bottom-right-radius: 3px;">
   <img class="avatar" src=<%= useravatar %>>
-  <div class="profiletext"><%= username %><span style="color: #525252;font-family: Impact;display: inline-block;font-size: 28px;">#<%= ud %>&NonBreakingSpace;</span><img id="famousprofile" src="<%= famousprofile %>" title="<%= truefamousprofile %>" class="famousprofile"/></div>
+  <div class="profiletext"><%= username %><span style="color: #525252;font-family: 'Poppins', sans-serif;display: inline-block;font-size: 28px;">#<%= ud %>&NonBreakingSpace;</span><img id="famousprofile" src="<%= famousprofile %>" title="<%= truefamousprofile %>" class="famousprofile"/> <img src="<%= emoji %>" title="<%= vipt %>" width="25" height="25" class="famousprofile"/> <img src="<%= developer %>" title="<%= developert %>" width="25" height="25"/></div>
   <br>
   </br>
   <div class="aboutme"><%= aboutme %></div>
@@ -89,5 +134,19 @@
   <div class="views"><i class="fas fa-eye"></i> Views - <%= views %></div>
 </div>
 <script type="text/javascript">
+      document.getElementById("searchtheprofile").onsubmit = function() {
+      var searchvalue = document.getElementById('search').value;
+      if(!searchvalue) {
+        searchvalue == 1
+      }
+      if(searchvalue.length == 18) {
+      window.location = "https://www.dcbestbot.tk" + `/search?userid=` + searchvalue
+      return false;
+      }
+      else {
+      window.location = "https://www.dcbestbot.tk" + `/search?profiletag=` + searchvalue
+      return false;
+      }
+      }
 </script>
 </body>

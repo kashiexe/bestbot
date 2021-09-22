@@ -10,6 +10,8 @@
 <meta data-react-helmet="true" name="theme-color"  content="#ffffff"/>
 <style>
   @import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900");
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:100,200,300,400,500,600,700,800,900");
+  @import url("https://fonts.googleapis.com/css2?family=Tajawal:300");
   .body {
     margin: 0 40px;
     padding: 0;
@@ -48,11 +50,11 @@
     position:relative;
 	  top:1px;
   }
-  .invitebot:hover {
+  .ss:hover {
     border-bottom: 3px solid #f59e42;
     box-bottom-shadow: 0 0 5px #f59e42;
   }
-  .invitebot:active {
+  .ss:active {
     position:relative;
 	  top:1px;
   }
@@ -114,6 +116,68 @@
     display: block;
     padding: 5px 5px;
   }
+  svg {
+    position: absolute;
+    background-size: cover;
+    width: 100%;
+    display: block;
+    left: 0%;
+  }
+  .firstlist {
+    float: right;
+    display: block;
+    background-color: transparent;
+  }
+  .list {
+    padding: 5px 5px;
+  }
+  .button {
+    background-color: transparent;
+    padding: 9px 9px;
+    font-family: "Poppins", sans-serif;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+    vertical-align: middle;
+    border-radius: 12px;
+    font-size: 25px;
+    background:linear-gradient(to right, #00a0fc 5%, #6500fc 100%);
+    top: 0;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    border: none;
+  }
+  .button:hover {
+    position: relative;
+    padding: 10px 10px;
+    top: -8px;
+    background-color: #141414;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    border: none;
+  }
+  .button:active {
+    position: relative;
+    bottom: 7px;
+    border: none;
+  }
+  .middle-block {
+    position: absolute;
+    left: 7%;
+    top: 25%;
+    display: block;
+    text-align: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .line {
+    background-color: transparent;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 70%;
+    border-bottom: 2px solid #292929;
+  }
 </style>
 </head>
 <body class="body">
@@ -123,12 +187,39 @@
         <img src="https://cdn.discordapp.com/attachments/880487906748293140/884810892397670441/Best_Bot_Logo_for_website_home.png" class="logo">
       </a>
       <ul>
-        <li><a href="https://discord.com/api/oauth2/authorize?client_id=880868490905550909&permissions=8&redirect_uri=https%3A%2F%2Fwww.dcbestbot.tk&scope=bot" class="invitebot">Invite +</a></li> 
+        <li><a href="https://discord.gg/hXHhsQjdSC" class="ss">Support Server</a></li> 
         <li><a href="/terms-of-service" class="bottos">Bot TOS</a></li>
         <li><a href="/search-profile" class="profilesearch">Profile Search</a></li> 
         <li><a class="uptime" href="https://stats.uptimerobot.com/8zXmgCXZxD/789054980">Uptime</a></li> 
       </ul>
     </nav>
+    <div class="middle-block">
+      <img src="https://cdn.discordapp.com/attachments/880487906748293140/880827517521518662/logo_from_creative.png" style="vertical-align: middle; "/>
+      <div style="color: #ffffff; font-size: 32px; font-family: 'Poppins', sans-serif">
+        Invite the (probably) best unverified bot to your discord server! (Beta)
+      </div>
+      <br>
+      <button class="button" onclick="window.open('https://discord.com/api/oauth2/authorize?client_id=880868490905550909&permissions=8&redirect_uri=https%3A%2F%2Fwww.dcbestbot.tk&scope=bot', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');">
+      <img src="https://cdn.discordapp.com/attachments/880487906748293140/888442368381055006/pixlr-bg-result_5.png" width="30px" height="30px" style="vertical-align: middle;"/> Add to Discord</button>
+      </br>
+    </div>
+    <br>
+    </br>
+    <br>
+    </br>
+    <br>
+    </br>
+    <div class="line"></div>
+    <br>
+    </br>
+    <br>
+    </br>
+    <br>
+    </br>
+    <br>
+    </br>
+    <br>
+    </br>
     <br>
     </br>
     <div class="entirechart">
@@ -140,6 +231,10 @@
     </div>
     </div>
     </div>
+    <svg viewbox="0 0 100 25">
+      <path fill="#9EAFFD" opacity="0.5" d="M0 30 V15 Q30 3 60 15 V30z" />
+      <path d="M0 30 V12 Q30 17 55 12 T100 11 V30z" fill="#9EAFFD" />
+    </svg>
 <script type="text/javascript">
 if(window.innerHeight <= 1300 && window.innerWidth <= 900) {
   window.location = "https://www.dcbestbot.tk/mb"

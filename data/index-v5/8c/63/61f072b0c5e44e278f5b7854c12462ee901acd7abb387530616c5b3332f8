@@ -1,0 +1,2 @@
+
+df0a8f81a94ba311fa624b6bd4622aa87497f251	{"key":"make-fetch-happen:request-cache:https://nekobot.xyz/api/imagegen?type=tweet&username=User&text=this%20is%20stupid","integrity":"sha512-XaaIRXJlGL7OAyU4djNjxzaDXgl05NgJYogV417NcQu21r09ZFYW8ur4jJvnYrUcyQuiAv4+28A06X1UGf6R5g==","time":1632002328443,"size":134,"metadata":{"time":1632002328439,"url":"https://nekobot.xyz/api/imagegen?type=tweet&username=User&text=this%20is%20stupid","reqHeaders":{},"resHeaders":{"content-encoding":"gzip","content-type":"application/json","date":"Sat, 18 Sep 2021 21:58:48 GMT"}}}

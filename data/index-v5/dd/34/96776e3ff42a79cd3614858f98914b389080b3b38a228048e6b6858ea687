@@ -1,0 +1,2 @@
+
+45632c3a6b179823313f3fcf071076078a48bfcf	{"key":"make-fetch-happen:request-cache:https://nekobot.xyz/api/imagegen?type=changemymind&text=I%20don%27t%20know","integrity":"sha512-BT6wGCVvAMElvySPMp6qOY8q+bgcgqVD++JMWTL5pmJOkKVz9qpac7HMLt4/sDxmmbaiW5pxfBagzf/B4JNGOQ==","time":1632002597588,"size":134,"metadata":{"time":1632002597577,"url":"https://nekobot.xyz/api/imagegen?type=changemymind&text=I%20don%27t%20know","reqHeaders":{},"resHeaders":{"content-encoding":"gzip","content-type":"application/json","date":"Sat, 18 Sep 2021 22:03:17 GMT"}}}
